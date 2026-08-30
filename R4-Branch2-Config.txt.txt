@@ -1,0 +1,166 @@
+
+R4-Branch2#show run
+R4-Branch2#show running-config 
+Building configuration...
+
+Current configuration : 1742 bytes
+!
+version 15.7
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname R4-Branch2
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+!
+!
+!
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!         
+!
+!
+!
+!
+no ip icmp rate-limit unreachable
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+
+
+!
+!
+!
+!
+no ip domain lookup
+ip cef    
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+redundancy
+!
+no cdp log mismatch duplex
+!
+ip tcp synwait-time 5
+! 
+!
+!
+!
+!         
+!
+!
+!
+!
+!
+!
+!
+!
+interface Ethernet0/0
+ description " trunk to sw-Branch2 "
+ no ip address
+ duplex auto
+!
+interface Ethernet0/0.10
+ encapsulation dot1Q 10
+ ip address 192.168.12.1 255.255.255.0
+ ip helper-address 192.168.10.1
+!
+interface Ethernet0/0.20
+ encapsulation dot1Q 20
+ ip address 192.168.22.1 255.255.255.0
+ ip helper-address 192.168.10.1
+!         
+interface Ethernet0/1
+ no ip address
+ duplex auto
+!
+interface Ethernet0/2
+ description " to R1-ISP "
+ ip address 10.0.0.10 255.255.255.252
+ duplex auto
+!
+interface Ethernet0/3
+ no ip address
+ duplex auto
+!
+interface Ethernet1/0
+ no ip address
+ duplex auto
+!
+interface Ethernet1/1
+ no ip address
+ duplex auto
+!
+interface Ethernet1/2
+ no ip address
+ duplex auto
+!
+interface Ethernet1/3
+ no ip address
+ duplex auto
+!
+router ospf 1
+ network 10.0.0.8 0.0.0.3 area 0
+ network 192.168.12.0 0.0.0.255 area 0
+ network 192.168.22.0 0.0.0.255 area 0
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+!
+ipv6 ioam timestamp
+!
+!
+!
+control-plane
+!         
+!
+!
+!
+!
+!
+!
+!
+line con 0
+ exec-timeout 0 0
+ privilege level 15
+ logging synchronous
+line aux 0
+ exec-timeout 0 0
+ privilege level 15
+ logging synchronous
+line vty 0 4
+ login
+ transport input none
+!
+!
+end
+
+R4-Branch2# 
